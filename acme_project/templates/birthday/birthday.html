@@ -18,7 +18,7 @@
       </form>
     </div>
   </div>
-  <!-- Присваиваем переменной data объект request.GET -->
+  {% comment %} <!-- Присваиваем переменной data объект request.GET -->
   {% with data=request.POST %}
     {% if form.is_valid %}
       <h2>Привет, {{ data.first_name }} {{ data.last_name }}</h2>
@@ -32,6 +32,19 @@
         Осталось дней до дня рождения: {{ birthday_countdown }}!
       {% endif %}
     {% endif %}
-  {% endwith %}
+  {% endwith %} {% endcomment %}
+  {% with data=form.instance %}
+  {% if form.is_valid %}
+    ID записи в БД: {{ data.id }}
+    <hr>
+    <h2>Привет, {{ data.first_name }} {{ data.last_name }}</h2>
+    {% if birthday_countdown == 0 %}
+      <p>С днём рождения!</p>
+    {% else %}
+      <p>Осталось дней до дня рождения: {{ birthday_countdown }}!</p>
+    {% endif %}
+  {% endif %}
+{% endwith %}
+
 {% endblock %}
 
