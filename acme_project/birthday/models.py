@@ -2,6 +2,8 @@
 from django.db import models
 # Импортируется функция-валидатор.
 from .validators import real_age
+# Импортируем функцию reverse() для получения ссылки на объект.
+from django.urls import reverse
 
 class Birthday(models.Model):
     first_name = models.CharField('Имя', max_length=20)
@@ -22,3 +24,12 @@ class Birthday(models.Model):
                 name='Unique person constraint',
             ),
         )
+    # Т.к. мы уходим от view-функций и переходим на классы, то нам нужно будет 
+    # реализовать метод get_absolute_url(), который будет возвращать 
+    # URL объекта. Этот метод используется Django для автоматического 
+    # перенаправления после успешного создания или редактирования объекта через
+    # CreateView/UpdateView (если не указан success_url)..
+    def get_absolute_url(self):
+        # С помощью функции reverse() возвращаем URL объекта.
+        return reverse('birthday:detail', kwargs={'pk': self.pk})
+    
