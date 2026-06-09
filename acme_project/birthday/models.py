@@ -8,8 +8,13 @@ class Birthday(models.Model):
     last_name = models.CharField(
         'Фамилия', blank=True, help_text='Необязательное поле', max_length=20
     )
-    birthday = models.DateField('Дата рождения', validators=(real_age,))
     # здесь мы подключили наш кастомный валидатор real_age
+    birthday = models.DateField('Дата рождения', validators=(real_age,))
+    # Подключаем поле с изображением, указываем куда загружать фото и делаем 
+    # поле не обязательным (если пользователь не захочет загружать фото, то он 
+    # может оставить это поле пустым).
+    image = models.ImageField('Фото', upload_to='birthdays_images', blank=True)
+
     class Meta:
         constraints = (
             models.UniqueConstraint(
